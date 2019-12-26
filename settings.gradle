@@ -1,0 +1,3 @@
+include ':FillWindowShimmer'
+include ':app'
+rootProject.name = "Shimmer"
