@@ -14,15 +14,17 @@ import android.view.ViewTreeObserver
 class FillWindowShimmerLayout : ShimmerFrameLayout, ViewTreeObserver.OnGlobalLayoutListener {
 
     @LayoutRes
-    private val layoutRes: Int
+    private var layoutRes: Int = 0
     var disableFillWindow = false
 
-    constructor(context: Context) : this(context, null, 0, 0)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        initLayout(context, attrs)
+    }
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :this(context, null)
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FillWindowShimmerLayout, defStyleAttr, defStyleRes)
+    private fun initLayout(context: Context, attrs: AttributeSet?) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FillWindowShimmerLayout)
 
         layoutRes = try {
             typedArray.getResourceId(R.styleable.FillWindowShimmerLayout_layout, -1)
